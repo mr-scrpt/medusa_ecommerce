@@ -2120,7 +2120,7 @@
   resolved "https://registry.npmjs.org/@medusajs/fulfillment/-/fulfillment-2.9.0.tgz"
   integrity sha512-Tq5WfVhf71Du77NeNq/RvIB8+NSpCQWawuX4rT0K6uOC8FoTdzT0sfyl8M9GnHioINbbiWeLfZYthKxcEEwZGA==
 
-"@medusajs/icons@2.9.0":
+"@medusajs/icons@^2.9.0", "@medusajs/icons@2.9.0":
   version "2.9.0"
   resolved "https://registry.npmjs.org/@medusajs/icons/-/icons-2.9.0.tgz"
   integrity sha512-qzFyX8f87WjLBFr23aly5F8hmN/camZ2oVcqmP1XBK4HqOWWxrPPjABePomQixwm7XGkfQHZf+B2rnyIyjwfKA==
@@ -2362,7 +2362,7 @@
   dependencies:
     bignumber.js "^9.1.2"
 
-"@medusajs/ui@4.0.19":
+"@medusajs/ui@^4.0.19", "@medusajs/ui@4.0.19":
   version "4.0.19"
   resolved "https://registry.npmjs.org/@medusajs/ui/-/ui-4.0.19.tgz"
   integrity sha512-iDy41IXHpYOLaM8aizZmuQjiQuFf0sKYK1CVwx1nsPvzXuuyJWGiTnoMiAhZ3NWgnf3dNDHFgnHlsU1k4zV2pQ==
@@ -4494,6 +4494,11 @@
   resolved "https://registry.npmjs.org/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.32.0.tgz"
   integrity sha512-VDzNHtLLI5s7xd/VubyS10mq6TxvZBp+4NRWoW+Hi3tgV05RtVm4qK99+dClwTN1McA6PHwob6DEJ6PlXbY83A==
 
+"@rollup/rollup-linux-x64-musl@4.32.0":
+  version "4.32.0"
+  resolved "https://registry.npmjs.org/@rollup/rollup-linux-x64-musl/-/rollup-linux-x64-musl-4.32.0.tgz"
+  integrity sha512-qcb9qYDlkxz9DxJo7SDhWxTWV1gFuwznjbTiov289pASxlfGbaOD54mgbs9+z94VwrXtKTu+2RqwlSTbiOqxGg==
+
 "@rushstack/node-core-library@5.10.2":
   version "5.10.2"
   resolved "https://registry.npmjs.org/@rushstack/node-core-library/-/node-core-library-5.10.2.tgz"
@@ -5062,6 +5067,11 @@
   version "1.5.7"
   resolved "https://registry.npmjs.org/@swc/core-linux-x64-gnu/-/core-linux-x64-gnu-1.5.7.tgz"
   integrity sha512-25GXpJmeFxKB+7pbY7YQLhWWjkYlR+kHz5I3j9WRl3Lp4v4UD67OGXwPe+DIcHqcouA1fhLhsgHJWtsaNOMBNg==
+
+"@swc/core-linux-x64-musl@1.5.7":
+  version "1.5.7"
+  resolved "https://registry.npmjs.org/@swc/core-linux-x64-musl/-/core-linux-x64-musl-1.5.7.tgz"
+  integrity sha512-0VN9Y5EAPBESmSPPsCJzplZHV26akC0sIgd3Hc/7S/1GkSMoeuVL+V9vt+F/cCuzr4VidzSkqftdP3qEIsXSpg==
 
 "@swc/core@*", "@swc/core@>=1.2.50", "@swc/core@1.5.7":
   version "1.5.7"
