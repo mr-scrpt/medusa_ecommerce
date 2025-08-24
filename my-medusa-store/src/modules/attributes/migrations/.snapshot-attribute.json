@@ -166,15 +166,6 @@
           "default": "0",
           "mappedType": "integer"
         },
-        "attribute_id": {
-          "name": "attribute_id",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "text"
-        },
         "metadata": {
           "name": "metadata",
           "type": "jsonb",
@@ -183,6 +174,15 @@
           "primary": false,
           "nullable": true,
           "mappedType": "json"
+        },
+        "attribute_id": {
+          "name": "attribute_id",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
         },
         "created_at": {
           "name": "created_at",
@@ -250,7 +250,20 @@
         }
       ],
       "checks": [],
-      "foreignKeys": {},
+      "foreignKeys": {
+        "attribute_value_attribute_id_foreign": {
+          "constraintName": "attribute_value_attribute_id_foreign",
+          "columnNames": [
+            "attribute_id"
+          ],
+          "localTableName": "public.attribute_value",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.attribute",
+          "updateRule": "cascade"
+        }
+      },
       "nativeEnums": {}
     }
   ],
