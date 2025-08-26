@@ -4,26 +4,23 @@ import { ChatBubbleLeftRight } from "@medusajs/icons";
 import {
   Container,
   DataTable,
-  DataTableSortingState,
   Heading,
   useDataTable,
+  Button,
 } from "@medusajs/ui";
-import { useState } from "react";
 
-import {
-  useAttributeList,
-  useAttributeRelationList,
-} from "@/modules/attributes/interface.client";
+import { useAttributeList } from "@/modules/attributes/interface.client";
 
 import { useAttributeTableColumns } from "../../vm/table/columns/use-attribute-table-columns";
+import { useNavigate } from "react-router-dom";
 
 const AttributesPage = () => {
+  const navigate = useNavigate();
   const { columns, order, sorting, limit } = useAttributeTableColumns();
-  const { attributeList, count, isLoading } = useAttributeRelationList({
+  const { attributeList, count, isLoading } = useAttributeList({
     order,
     limit,
   });
-  console.log("output_log:  =>>>", attributeList);
 
   const table = useDataTable({
     data: attributeList || [],
@@ -39,6 +36,14 @@ const AttributesPage = () => {
       <DataTable instance={table}>
         <DataTable.Toolbar>
           <Heading>Attributes</Heading>
+          <div className="flex items-center gap-x-2">
+            <Button
+              variant="secondary"
+              onClick={() => navigate("/attributes/create")}
+            >
+              Create Attribute
+            </Button>
+          </div>
         </DataTable.Toolbar>
         <DataTable.Table />
       </DataTable>
