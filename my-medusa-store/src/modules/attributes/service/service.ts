@@ -1,10 +1,9 @@
-// src/modules/attributes/service.ts
 import { MedusaService } from "@medusajs/framework/utils";
-import Attribute from "./models/attribute";
-import AttributeValue from "./models/attribute-value";
+import AttributeSchema from "../models/attribute";
+import AttributeValue from "../models/attribute-value";
 
 class AttributeModuleService extends MedusaService({
-  Attribute,
+  Attribute: AttributeSchema,
   AttributeValue,
 }) {}
 

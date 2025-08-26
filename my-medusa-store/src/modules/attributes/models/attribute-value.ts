@@ -1,5 +1,5 @@
 import { model } from "@medusajs/framework/utils";
-import Attribute from "./attribute";
+import AttributeSchema from "./attribute";
 import { InferTypeOf } from "@medusajs/framework/types";
 
 const AttributeValue = model.define("attribute_value", {
@@ -8,7 +8,7 @@ const AttributeValue = model.define("attribute_value", {
   rank: model.number().default(0),
   // attribute_id: model.text().index(), // Связь с моделью Attribute
   metadata: model.json().nullable(),
-  attribute: model.belongsTo(() => Attribute, {
+  attribute: model.belongsTo(() => AttributeSchema, {
     foreignKey: "attribute_id",
   }),
 });

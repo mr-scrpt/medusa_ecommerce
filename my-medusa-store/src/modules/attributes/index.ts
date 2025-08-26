@@ -1,6 +1,7 @@
 // src/modules/attributes/index.ts
+
 import { Module } from "@medusajs/framework/utils";
-import AttributeModuleService from "./service";
+import AttributeModuleService from "./service/service";
 
 export const ATTRIBUTE_MODULE = "attribute";
 

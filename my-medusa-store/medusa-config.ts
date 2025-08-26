@@ -1,4 +1,5 @@
 import { loadEnv, defineConfig } from "@medusajs/framework/utils";
+import path from "path";
 
 loadEnv(process.env.NODE_ENV || "development", process.cwd());
 
@@ -18,4 +19,13 @@ module.exports = defineConfig({
       resolve: "./src/modules/attributes",
     },
   ],
+  admin: {
+    vite: () => ({
+      resolve: {
+        alias: {
+          "@": path.resolve(__dirname, "./src"),
+        },
+      },
+    }),
+  },
 });

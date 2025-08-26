@@ -1,15 +1,8 @@
 import { model } from "@medusajs/framework/utils";
+import { AttributeFieldType } from "../domain/type";
 import AttributeValue from "./attribute-value";
-import { InferTypeOf } from "@medusajs/framework/types";
 
-export enum AttributeFieldType {
-  MULTI = "multi",
-  SINGLE = "single",
-  BOOLEAN = "boolean",
-  RANGE = "range",
-}
-
-const Attribute = model.define("attribute", {
+const AttributeSchema = model.define("attribute", {
   id: model.id().primaryKey(),
   name: model.text(),
   handle: model.text().unique(),
@@ -21,6 +14,4 @@ const Attribute = model.define("attribute", {
   }),
 });
 
-export type AttributeType = InferTypeOf<typeof Attribute>;
-
-export default Attribute;
+export default AttributeSchema;
