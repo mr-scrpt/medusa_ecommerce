@@ -1,7 +1,7 @@
 import { sdk } from "@/shared/lib/medusa";
 import { useQuery } from "@tanstack/react-query";
 
-import { cleanObject, createQueryParams } from "@/shared/lib/utils";
+import { createQueryParamsString } from "@/shared/lib/react-router";
 import {
   ATTRIBUTE_RELATION_FIELDS,
   AttributeListParams,
@@ -13,10 +13,12 @@ export const useAttributeList = (query: AttributeListParams) => {
   const { data, ...rest } = useQuery({
     queryKey: ["attributes", query],
     queryFn: async () => {
-      const params = new URLSearchParams(cleanObject(query));
+      const params = createQueryParamsString({
+        query,
+      });
 
       return sdk.client.fetch<AttributeListResponse>(
-        `/admin/attributes?${params.toString()}`,
+        `/admin/attributes?${params}`,
       );
     },
   });
@@ -27,13 +29,13 @@ export const useAttributeRelationList = (query: AttributeListParams) => {
   const { data, ...rest } = useQuery({
     queryKey: ["attributes", query],
     queryFn: async () => {
-      const params = createQueryParams({
+      const params = createQueryParamsString({
         query,
         relations: ATTRIBUTE_RELATION_FIELDS,
       });
 
       return sdk.client.fetch<AttributeListResponse>(
-        `/admin/attributes?${params.toString()}`,
+        `/admin/attributes?${params}`,
       );
     },
   });

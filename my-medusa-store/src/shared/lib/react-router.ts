@@ -1,4 +1,5 @@
 import { useSearchParams } from "react-router-dom";
+import { cleanObject } from "./utils";
 
 type QueryParams<T extends string> = {
   [key in T]: string | undefined;
@@ -22,3 +23,25 @@ export function useQueryParams<T extends string>(
 
   return result;
 }
+
+export const createQueryParams = ({
+  query,
+  relations,
+}: {
+  query: Record<string, any>;
+  relations?: Record<string, any>;
+}) => {
+  const combinedParams = {
+    ...cleanObject({ ...query, ...relations }),
+  };
+
+  return new URLSearchParams(combinedParams);
+};
+
+export const createQueryParamsString = ({
+  query,
+  relations,
+}: {
+  query: Record<string, any>;
+  relations?: Record<string, any>;
+}) => createQueryParams({ query, relations }).toString();

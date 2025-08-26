@@ -2,6 +2,7 @@ import {
   defineMiddlewares,
   validateAndTransformQuery,
 } from "@medusajs/framework/http";
+
 import { createFindParams } from "@medusajs/medusa/api/utils/validators";
 
 export const GetAttributesSchema = createFindParams();
@@ -20,7 +21,8 @@ export default defineMiddlewares({
             "type",
             "filterable",
             "metadata",
-            // "values.*",
+            "created_at",
+            "updated_at",
           ],
           isList: true,
         }),

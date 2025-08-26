@@ -16,9 +16,8 @@ export async function GET(
     await attributeModuleService.listAndCountAttributes(
       req.filterableFields,
       req.listConfig,
-
-      // { ...req.listConfig, relations: ["values"] },
     );
+  console.log("output_log:  =>>>", attributeList, count);
 
   res.status(200).json({ attributeList, count });
 }
