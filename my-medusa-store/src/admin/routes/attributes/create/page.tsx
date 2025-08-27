@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Container, Heading, Input, toast } from "@medusajs/ui";
+import { Button, Container, Heading, Input, Select, toast } from "@medusajs/ui";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -7,6 +7,7 @@ import { AttributeFieldType } from "@/modules/attributes/domain/type";
 import { useFieldArray } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { sdk } from "@/shared/lib/medusa";
+import { JsonViewSection } from "@/shared/ui/kit/json-view-section/json-view-section";
 
 const CreateAttributeSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -76,13 +77,19 @@ const AttributeCreate = () => {
           />
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <select {...form.register("type")}>
-            {Object.values(AttributeFieldType).map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
+          <Select>
+            <Select.Trigger>
+              <Select.Value placeholder="Select a currency" />
+            </Select.Trigger>
+
+            <Select.Content>
+              {Object.entries(AttributeFieldType).map(([key, type]) => (
+                <Select.Item key={type} value={type}>
+                  {key}
+                </Select.Item>
+              ))}
+            </Select.Content>
+          </Select>
           <div className="flex items-center gap-x-2">
             <input
               type="checkbox"
@@ -92,11 +99,12 @@ const AttributeCreate = () => {
             <label htmlFor="filterable">Filterable</label>
           </div>
         </div>
-        {/* <JsonInput */}
-        {/*   {...form.register("metadata")} */}
-        {/*   label="Metadata" */}
-        {/*   placeholder='{ "key": "value" }' */}
-        {/* /> */}
+        <JsonViewSection
+          title="Metadata"
+          data={form.watch("metadata")}
+          editable={true}
+          onSave={(value) => form.setValue("metadata", value)}
+        />
 
         <Heading level="h2">Values</Heading>
         <div className="flex flex-col gap-y-4">

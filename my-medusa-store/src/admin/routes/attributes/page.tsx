@@ -36,7 +36,7 @@ const AttributesPage = () => {
       <DataTable instance={table}>
         <DataTable.Toolbar>
           <Heading>Attributes</Heading>
-          <div className="flex items-center gap-x-2">
+          <div className="flex items-center gap-x-2 ml-auto">
             <Button
               variant="secondary"
               onClick={() => navigate("/attributes/create")}
