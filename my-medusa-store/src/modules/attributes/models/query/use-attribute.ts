@@ -25,6 +25,7 @@ export const useAttributeList = (query: AttributeListParams) => {
 
   return { ...data, ...rest };
 };
+
 export const useAttributeRelationList = (query: AttributeListParams) => {
   const { data, ...rest } = useQuery({
     queryKey: ["attributes", query],

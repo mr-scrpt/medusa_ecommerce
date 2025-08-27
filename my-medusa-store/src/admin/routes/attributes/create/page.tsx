@@ -1,13 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Container, Heading, Input, Select, toast } from "@medusajs/ui";
+import { Button, Container, Heading, Input, Select } from "@medusajs/ui";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { AttributeFieldType } from "@/modules/attributes/domain/type";
+import { JsonViewSection } from "@/shared/ui/kit/json-view-section/json-view-section";
 import { useFieldArray } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { sdk } from "@/shared/lib/medusa";
-import { JsonViewSection } from "@/shared/ui/kit/json-view-section/json-view-section";
+import { useAttributeCreate } from "@/modules/attributes/interface.client";
 
 const CreateAttributeSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -42,32 +42,30 @@ const AttributeCreate = () => {
     name: "values",
   });
 
-  // const { mutate, isLoading } = sdk.admin.attribute.create();
-  //
-  // const onSubmit = form.handleSubmit(async (data) => {
-  //   const payload = {
-  //     ...data,
-  //     metadata: data.metadata ? JSON.parse(data.metadata) : null,
-  //     values: data.values.map((v) => ({
-  //       ...v,
-  //       metadata: v.metadata ? JSON.parse(v.metadata) : null,
-  //     })),
-  //   };
-  //   mutate(payload, {
-  //     onSuccess: () => {
-  //       toast.success("Attribute created successfully");
-  //       navigate("/attributes");
-  //     },
-  //     onError: (err) => {
-  //       toast.error(err.message);
-  //     },
-  //   });
-  // });
+  const { mutateAsync: createAttribute, isPending } = useAttributeCreate();
+
+  const onSubmit = form.handleSubmit(async (data) => {
+    try {
+      // при необходимости преобразуйте metadata из строки в JSON
+
+      // если JsonViewSection уже возвращает объект — пропустите парсинг
+
+      const payload = {
+        ...data,
+      };
+
+      await createAttribute(payload);
+
+      navigate("/attributes"); // ваш путь списка атрибутов
+    } catch {
+      // onError уже покажет toast
+    }
+  });
 
   return (
     <Container>
       <Heading level="h1">Create Attribute</Heading>
-      <form onSubmit={() => {}} className="flex flex-col gap-y-4">
+      <form onSubmit={onSubmit} className="flex flex-col gap-y-4">
         <div className="grid grid-cols-2 gap-4">
           <Input {...form.register("name")} placeholder="e.g. Color" required />
           <Input

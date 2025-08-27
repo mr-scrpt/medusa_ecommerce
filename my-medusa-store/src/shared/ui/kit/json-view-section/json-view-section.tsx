@@ -126,7 +126,7 @@ export const JsonViewSection = ({
           {numberOfKeys} keys
         </Badge>
         {editable && (
-          <Badge size="2xsmall" variant="green" rounded="full">
+          <Badge size="2xsmall" color="green" rounded="full">
             Editable
           </Badge>
         )}
@@ -168,7 +168,7 @@ export const JsonViewSection = ({
                   <span className="text-ui-fg-subtle">{numberOfKeys} keys</span>
                 </Badge>
                 {isEditing && (
-                  <Badge size="2xsmall" variant="orange" rounded="full">
+                  <Badge size="2xsmall" color="orange" rounded="full">
                     Editing
                   </Badge>
                 )}
