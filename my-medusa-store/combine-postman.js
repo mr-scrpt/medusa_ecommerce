@@ -13,15 +13,17 @@ const BASE_FILE_PATH = "postman/base.pmn.json";
 const OUTPUT_FILE_PATH = "postman/postman_collection.json";
 // -----------------
 
-// --- POSTMAN API ---
+// --- ПЕРЕМЕННЫЕ ИЗ .ENV ---
 const POSTMAN_API_KEY = process.env.POSTMAN_API_KEY;
 const POSTMAN_COLLECTION_ID = process.env.POSTMAN_COLLECTION_ID;
-// -------------------
+const MEDUSA_ADMIN_EMAIL = process.env.MEDUSA_ADMIN_EMAIL;
+const MEDUSA_ADMIN_PASSWORD = process.env.MEDUSA_ADMIN_PASSWORD;
+// --------------------------
 
 async function syncWithPostmanAPI(collectionData) {
   if (!POSTMAN_API_KEY || !POSTMAN_COLLECTION_ID) {
     console.warn(
-      "⚠️ Postman API Key or Collection ID not found in .env file. Skipping API sync.",
+      "⚠️ Postman API Key or Collection ID not found. Skipping API sync.",
     );
     return;
   }
@@ -42,14 +44,26 @@ async function syncWithPostmanAPI(collectionData) {
   }
 }
 
-/**
- * Основная функция для сборки коллекции.
- * @param {object} options - Опции сборки.
- * @param {boolean} options.forceSync - Если true, синхронизация с API произойдет даже без изменений.
- */
 async function buildCollection(options = { forceSync: false }) {
   try {
-    const baseContent = await fs.readFile(BASE_FILE_PATH, "utf-8");
+    // 1. Читаем базовый файл как простой текст
+    let baseContent = await fs.readFile(BASE_FILE_PATH, "utf-8");
+
+    // 2. Заменяем плейсхолдеры на значения из .env
+    if (MEDUSA_ADMIN_EMAIL) {
+      baseContent = baseContent.replace(
+        /__MEDUSA_ADMIN_EMAIL__/g,
+        MEDUSA_ADMIN_EMAIL,
+      );
+    }
+    if (MEDUSA_ADMIN_PASSWORD) {
+      baseContent = baseContent.replace(
+        /__MEDUSA_ADMIN_PASSWORD__/g,
+        MEDUSA_ADMIN_PASSWORD,
+      );
+    }
+
+    // 3. Только теперь парсим его как JSON
     const finalCollection = JSON.parse(baseContent);
 
     if (!finalCollection.item) finalCollection.item = [];
@@ -73,7 +87,7 @@ async function buildCollection(options = { forceSync: false }) {
     try {
       oldCollectionContent = await fs.readFile(OUTPUT_FILE_PATH, "utf-8");
     } catch (e) {
-      // Файла еще не существует, это нормально.
+      /* Файла еще не существует */
     }
 
     if (!options.forceSync && newCollectionContent === oldCollectionContent) {
@@ -92,9 +106,7 @@ async function buildCollection(options = { forceSync: false }) {
     await fs.mkdir(path.dirname(OUTPUT_FILE_PATH), { recursive: true });
     await fs.writeFile(OUTPUT_FILE_PATH, newCollectionContent);
 
-    console.log(
-      `✅ Successfully built and updated collection at: ${OUTPUT_FILE_PATH}`,
-    );
+    console.log(`✅ Successfully built collection at: ${OUTPUT_FILE_PATH}`);
 
     await syncWithPostmanAPI(finalCollection);
   } catch (error) {
@@ -105,11 +117,9 @@ async function buildCollection(options = { forceSync: false }) {
 function watchFiles() {
   const filesToWatch = [BASE_FILE_PATH, ...globSync(SOURCE_FILES_PATTERN)];
 
-  // --- ДОБАВЛЕННЫЙ СТАТУС ---
   console.log("\n👀 Watching for changes in the following files:");
   filesToWatch.forEach((file) => console.log(`  - ${file}`));
   console.log("----------------------------------------");
-  // -------------------------
 
   const watcher = chokidar.watch(filesToWatch, {
     persistent: true,
@@ -138,7 +148,6 @@ function watchFiles() {
 
 const isWatchMode = process.argv.includes("--watch");
 
-// При первом запуске всегда вызываем сборку с принудительной синхронизацией
 buildCollection({ forceSync: true }).then(() => {
   if (isWatchMode) {
     watchFiles();
