@@ -1,4 +1,4 @@
-import { AttributeType } from "@/modules/attributes/interface.type";
+import { AttributeType } from "@/modules/attribute/interface.type";
 import { createDataTableFilterHelper } from "@medusajs/ui";
 import { useMemo } from "react";
 

@@ -1,4 +1,4 @@
-import { AttributeType } from "@/modules/attributes/interface.type";
+import { AttributeType } from "@/modules/attribute/interface.type";
 import { EllipsisHorizontal } from "@medusajs/icons";
 import {
   createDataTableColumnHelper,
@@ -44,7 +44,7 @@ export const useAttributeTableColumns = () => {
             </DropdownMenu.Trigger>
             <DropdownMenu.Content>
               <DropdownMenu.Item
-                onClick={() => navigate(`/attributes/${row.original.id}`)}
+                onClick={() => navigate(`/attribute/${row.original.id}`)}
               >
                 Edit
               </DropdownMenu.Item>

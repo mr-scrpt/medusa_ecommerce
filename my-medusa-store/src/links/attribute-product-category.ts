@@ -1,6 +1,6 @@
 import { defineLink } from "@medusajs/framework/utils";
 import ProductModule from "@medusajs/medusa/product";
-import AttributeModule from "../modules/attributes";
+import AttributeModule from "../modules/attribute";
 
 export default defineLink(
   {

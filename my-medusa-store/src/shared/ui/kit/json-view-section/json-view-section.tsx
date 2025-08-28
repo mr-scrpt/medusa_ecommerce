@@ -21,10 +21,10 @@ import Primitive from "@uiw/react-json-view";
 import { CSSProperties, MouseEvent, Suspense, useState, useMemo } from "react";
 
 type JsonViewSectionProps = {
-  data: object | string | null | undefined;
+  data: Record<string, unknown> | null;
   title?: string;
   editable?: boolean;
-  onSave?: (value: string) => void;
+  onSave?: (value: Record<string, unknown> | null) => void;
 };
 
 export const JsonViewSection = ({

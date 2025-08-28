@@ -17,7 +17,7 @@ module.exports = defineConfig({
   },
   modules: [
     {
-      resolve: "./src/modules/attributes",
+      resolve: "./src/modules/attribute",
     },
   ],
   admin: {
