@@ -7,7 +7,7 @@ import { AttributeRelationCreatePayload } from "../../interface.type";
 export const useAttributeCreate = () => {
   return useMutation({
     mutationFn: async (data: AttributeRelationCreatePayload) => {
-      return sdk.client.fetch("/admin/attributes", {
+      return sdk.client.fetch("/admin/attribute", {
         method: "POST",
         body: data,
       });

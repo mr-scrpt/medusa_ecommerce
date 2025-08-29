@@ -1,30 +1,30 @@
 import {
   ArrowUpRightOnBox,
   Check,
+  PencilSquare,
   SquareTwoStack,
   TriangleDownMini,
   XMarkMini,
-  PencilSquare,
-  Eye,
 } from "@medusajs/icons";
 import {
   Badge,
+  Button,
   Container,
   Drawer,
   Heading,
   IconButton,
   Kbd,
-  Button,
   Textarea,
 } from "@medusajs/ui";
 import Primitive from "@uiw/react-json-view";
-import { CSSProperties, MouseEvent, Suspense, useState, useMemo } from "react";
+import { CSSProperties, MouseEvent, Suspense, useMemo, useState } from "react";
 
+// --- ИЗМЕНЕНИЯ В ТИПАХ ---
 type JsonViewSectionProps = {
-  data: Record<string, unknown> | null;
+  data: string | null | undefined; // Теперь data - это строка
   title?: string;
   editable?: boolean;
-  onSave?: (value: Record<string, unknown> | null) => void;
+  onSave?: (value: string) => void; // onSave теперь тоже работает со строкой
 };
 
 export const JsonViewSection = ({
@@ -37,55 +37,32 @@ export const JsonViewSection = ({
   const [editValue, setEditValue] = useState("");
   const [validationError, setValidationError] = useState<string | null>(null);
 
-  // Обработка данных: если это строка - пытаемся парсить как JSON
+  // Эта логика преобразует входящую строку в объект для красивого отображения
   const processedData = useMemo(() => {
-    if (data === null || data === undefined) {
+    if (!data || typeof data !== "string" || data.trim() === "") {
       return {};
     }
-
-    if (typeof data === "string") {
-      // Если строка пустая, возвращаем пустой объект
-      if (data.trim() === "") {
-        return {};
-      }
-
-      try {
-        // Пытаемся парсить как JSON
-        const parsed = JSON.parse(data);
-        return parsed;
-      } catch (error) {
-        // Если не удалось парсить, возвращаем объект с исходной строкой
-        return { value: data };
-      }
+    try {
+      return JSON.parse(data);
+    } catch (error) {
+      // Если парсинг не удался, отображаем ошибку или исходную строку
+      return { error: "Invalid JSON format", value: data };
     }
-
-    if (typeof data === "object") {
-      return data;
-    }
-
-    // Для других типов данных (number, boolean и т.д.)
-    return { value: data };
   }, [data]);
 
-  // Получаем исходную строку для редактирования
+  // Эта функция готовит строку для редактирования в Textarea
   const getEditableString = () => {
-    if (data === null || data === undefined) {
+    if (!data) {
       return "";
     }
-
-    if (typeof data === "string") {
-      // Если это валидный JSON, форматируем его
-      try {
-        const parsed = JSON.parse(data);
-        return JSON.stringify(parsed, null, 2);
-      } catch {
-        // Если не JSON, возвращаем как есть
-        return data;
-      }
+    try {
+      // Пытаемся красиво отформатировать JSON
+      const parsed = JSON.parse(data);
+      return JSON.stringify(parsed, null, 2);
+    } catch {
+      // Если это не JSON, возвращаем как есть
+      return data;
     }
-
-    // Если объект, конвертируем в форматированный JSON
-    return JSON.stringify(data, null, 2);
   };
 
   const handleStartEdit = () => {
@@ -106,8 +83,7 @@ export const JsonViewSection = ({
       if (editValue.trim() !== "") {
         JSON.parse(editValue);
       }
-
-      // Если валидация прошла, сохраняем
+      // Если валидация прошла, вызываем onSave с новой строкой
       onSave?.(editValue);
       setIsEditing(false);
       setValidationError(null);
@@ -132,16 +108,6 @@ export const JsonViewSection = ({
         )}
       </div>
       <div className="flex items-center gap-x-2">
-        {/* {editable && ( */}
-        {/*   <IconButton */}
-        {/*     size="small" */}
-        {/*     variant="transparent" */}
-        {/*     className="text-ui-fg-muted hover:text-ui-fg-subtle" */}
-        {/*     onClick={handleStartEdit} */}
-        {/*   > */}
-        {/*     <PencilSquare /> */}
-        {/*   </IconButton> */}
-        {/* )} */}
         <Drawer>
           <Drawer.Trigger asChild>
             <IconButton

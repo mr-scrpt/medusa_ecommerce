@@ -22,11 +22,13 @@ export async function getAttribute(req: MedusaRequest, res: MedusaResponse) {
 
 export async function listAttributes(req: MedusaRequest, res: MedusaResponse) {
   const attributeModuleService = req.scope.resolve(ATTRIBUTE_MODULE);
+  console.log("output_log: REQST:::  =>>>");
   const [attributeList, count] =
     await attributeModuleService.listAndCountAttributes(
       req.filterableFields,
       req.listConfig,
     );
+  console.log("output_log: ATTRIBUTES::: =>>>", attributeList);
   res.status(200).json({ attributeList, count });
 }
 

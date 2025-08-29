@@ -21,6 +21,7 @@ const AttributesPage = () => {
     order,
     limit,
   });
+  console.log("output_log: ATTRIBUTES =>>>", attributeList);
 
   const table = useDataTable({
     data: attributeList || [],
@@ -39,7 +40,7 @@ const AttributesPage = () => {
           <div className="flex items-center gap-x-2 ml-auto">
             <Button
               variant="secondary"
-              onClick={() => navigate("/attributes/create")}
+              onClick={() => navigate("/attribute/create")}
             >
               Create Attribute
             </Button>

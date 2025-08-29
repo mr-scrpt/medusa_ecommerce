@@ -18,7 +18,7 @@ export const useAttributeList = (query: AttributeListParams) => {
       });
 
       return sdk.client.fetch<AttributeListResponse>(
-        `/admin/attributes?${params}`,
+        `/admin/attribute?${params}`,
       );
     },
   });
@@ -36,7 +36,7 @@ export const useAttributeRelationList = (query: AttributeListParams) => {
       });
 
       return sdk.client.fetch<AttributeListResponse>(
-        `/admin/attributes?${params}`,
+        `/admin/attribute?${params}`,
       );
     },
   });
