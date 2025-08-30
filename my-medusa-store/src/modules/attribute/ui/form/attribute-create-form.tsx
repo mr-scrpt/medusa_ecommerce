@@ -4,27 +4,20 @@ import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 import { AttributeFieldType } from "@/modules/attribute/domain/type";
-import {
-  AttributeRelationCreateForm,
-  AttributeRelationCreateFormSchema,
-} from "@/modules/attribute/domain/form.schema";
 import { useAttributeCreate } from "@/modules/attribute/interface.client";
 import { JsonViewSection } from "@/shared/ui/kit/json-view-section/json-view-section";
+import { AttributeRelationCreateForm } from "../../domain/from-create.schema";
+import {
+  AttributeRelationCreateFormSchema,
+  defaultAttributeRelationCreateForm,
+} from "../../domain/from-create.schema";
 
 export const AttributeCreateForm = () => {
   const navigate = useNavigate();
   const form = useForm<AttributeRelationCreateForm>({
     resolver: zodResolver(AttributeRelationCreateFormSchema),
-    mode: "onBlur",
     defaultValues: {
-      attributeData: {
-        name: "",
-        handle: "",
-        type: AttributeFieldType.SINGLE,
-        filterable: false,
-        metadata: "",
-      },
-      valueListData: [{ name: "", value: "", rank: 0, metadata: "" }],
+      ...defaultAttributeRelationCreateForm,
     },
   });
 
@@ -37,11 +30,9 @@ export const AttributeCreateForm = () => {
 
   const onSubmit = form.handleSubmit(async (data) => {
     try {
-      // Zod уже преобразовал metadata из строки в объект
       await createAttribute(data);
       navigate("/attribute");
     } catch (error) {
-      // react-query's onError будет обрабатывать toast
       console.error("Failed to create attribute", error);
     }
   });
@@ -52,7 +43,7 @@ export const AttributeCreateForm = () => {
     <Container>
       <Heading level="h1">Create Attribute</Heading>
       <form onSubmit={onSubmit} className="flex flex-col gap-y-4">
-        {/* General Information Section */}
+        {}
         <div className="grid grid-cols-2 gap-x-4">
           <div>
             <Input
@@ -113,7 +104,7 @@ export const AttributeCreateForm = () => {
           </div>
         </div>
 
-        {/* Metadata Section */}
+        {}
         <div>
           <JsonViewSection
             title="Metadata"
@@ -130,7 +121,7 @@ export const AttributeCreateForm = () => {
           </div>
         </div>
 
-        {/* Values Section */}
+        {}
         <Heading level="h2">Values</Heading>
         <div className="flex flex-col gap-y-2">
           {fields.map((field, index) => (
@@ -181,7 +172,7 @@ export const AttributeCreateForm = () => {
                     Remove
                   </Button>
                 </div>
-                <div className="h-6 pt-1" /> {/* Spacer for alignment */}
+                <div className="h-6 pt-1" /> {}
               </div>
             </div>
           ))}
@@ -193,7 +184,7 @@ export const AttributeCreateForm = () => {
           Add Value
         </Button>
 
-        {/* Action Buttons */}
+        {}
         <div className="flex justify-end mt-4">
           <Button type="submit" isLoading={isPending}>
             Create Attribute

@@ -2,22 +2,25 @@ import { defineRouteConfig } from "@medusajs/admin-sdk";
 import { ChatBubbleLeftRight } from "@medusajs/icons";
 
 import {
+  Button,
   Container,
   DataTable,
   Heading,
   useDataTable,
-  Button,
 } from "@medusajs/ui";
 
-import { useAttributeList } from "@/modules/attribute/interface.client";
+import {
+  useAttributeList,
+  useAttributeListWithValueList,
+} from "@/modules/attribute/interface.client";
 
-import { useAttributeTableColumns } from "../../vm/table/columns/use-attribute-table-columns";
 import { useNavigate } from "react-router-dom";
+import { useAttributeTableColumns } from "../../vm/table/columns/use-attribute-table-columns";
 
 const AttributesPage = () => {
   const navigate = useNavigate();
   const { columns, order, sorting, limit } = useAttributeTableColumns();
-  const { attributeList, count, isLoading } = useAttributeList({
+  const { attributeList, count, isLoading } = useAttributeListWithValueList({
     order,
     limit,
   });

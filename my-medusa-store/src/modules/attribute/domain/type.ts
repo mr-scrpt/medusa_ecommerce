@@ -12,6 +12,7 @@ export enum AttributeFieldType {
 export const ATTRIBUTE_RELATION_FIELDS = {
   fields: "values.*",
 };
+export type AttributeRelationFieldList = typeof ATTRIBUTE_RELATION_FIELDS;
 
 export type AttributeType = Omit<InferTypeOf<typeof AttributeSchema>, "values">;
 

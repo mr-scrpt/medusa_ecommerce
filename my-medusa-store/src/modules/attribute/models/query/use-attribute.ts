@@ -1,56 +1,49 @@
-import { sdk } from "@/shared/lib/medusa";
 import { useQuery } from "@tanstack/react-query";
 
-import { createQueryParamsString } from "@/shared/lib/react-router";
+import { attributeApi } from "../../api/endpoint.api";
 import {
   ATTRIBUTE_RELATION_FIELDS,
   AttributeListParams,
   AttributeListResponse,
-  AttributeType,
+  AttributeRelationFieldList,
+  AttributeResponse,
 } from "../../interface.type";
 
-export const useAttributeList = (query: AttributeListParams) => {
-  const { data, ...rest } = useQuery({
-    queryKey: ["attributes", query],
-    queryFn: async () => {
-      const params = createQueryParamsString({
-        query,
-      });
+const useAttributeFabric =
+  (relations?: AttributeRelationFieldList) => (id: string) => {
+    const { data, ...rest } = useQuery({
+      queryKey: ["attribute", id, relations],
+      queryFn: async () => {
+        return attributeApi.get<AttributeResponse>({ id, ...relations });
+      },
 
-      return sdk.client.fetch<AttributeListResponse>(
-        `/admin/attribute?${params}`,
-      );
-    },
-  });
+      enabled: !!id,
+    });
 
-  return { ...data, ...rest };
-};
+    return { attribute: data, ...rest };
+  };
 
-export const useAttributeRelationList = (query: AttributeListParams) => {
-  const { data, ...rest } = useQuery({
-    queryKey: ["attributes", query],
-    queryFn: async () => {
-      const params = createQueryParamsString({
-        query,
-        relations: ATTRIBUTE_RELATION_FIELDS,
-      });
+export const useAttribute = useAttributeFabric();
+export const useAttributeWithValueList = useAttributeFabric(
+  ATTRIBUTE_RELATION_FIELDS,
+);
 
-      return sdk.client.fetch<AttributeListResponse>(
-        `/admin/attribute?${params}`,
-      );
-    },
-  });
+const useAttributeListFabric =
+  (relations?: AttributeRelationFieldList) => (query: AttributeListParams) => {
+    const { data, ...rest } = useQuery({
+      queryKey: ["attribute", query, relations],
+      queryFn: async () => {
+        return attributeApi.getList<AttributeListResponse>({
+          ...query,
+          ...relations,
+        });
+      },
+    });
 
-  return { ...data, ...rest };
-};
+    return { ...data, ...rest };
+  };
 
-export const useAttribute = (id: string) => {
-  const { data, ...rest } = useQuery({
-    queryKey: ["attributes", id],
-    queryFn: async () => {
-      return sdk.client.fetch<AttributeType>(`/admin/attribute/${id}`);
-    },
-  });
-
-  return { attribute: data, ...rest };
-};
+export const useAttributeList = useAttributeListFabric();
+export const useAttributeListWithValueList = useAttributeListFabric(
+  ATTRIBUTE_RELATION_FIELDS,
+);

@@ -1,1 +1,1 @@
-export * from "./api/attribute.api";
+export * from "./api/controller.api";

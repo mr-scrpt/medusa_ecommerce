@@ -2,6 +2,7 @@ import { createStep, StepResponse } from "@medusajs/workflows-sdk";
 import { ATTRIBUTE_MODULE } from "../..";
 import { AttributeCreatePayload } from "../../interface.type";
 import AttributeModuleService from "../../service/service";
+import { getMetadata } from "../../tool/metadata";
 
 export const createAttributeStep = createStep(
   "create-attribute-step",
@@ -11,7 +12,10 @@ export const createAttributeStep = createStep(
       container.resolve<AttributeModuleService>(ATTRIBUTE_MODULE);
 
     const [createdAttribute] = await attributeModuleService.createAttributes([
-      data,
+      {
+        ...data,
+        metadata: getMetadata(data.metadata),
+      },
     ]);
 
     return new StepResponse(createdAttribute, { id: createdAttribute.id });

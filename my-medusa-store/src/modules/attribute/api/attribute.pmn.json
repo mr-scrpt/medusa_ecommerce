@@ -222,6 +222,48 @@
               "response": []
             },
             {
+              "name": "Success - Retrieve by ID (with Relations)",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.test(\"Status code is 200 OK\", () => {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "pm.test(\"Response contains attribute object\", () => {",
+                      "    const res = pm.response.json();",
+                      "    pm.expect(res.attribute).to.be.an('object');",
+                      "});",
+                      "",
+                      "pm.test(\"Attribute includes 'values' array\", () => {",
+                      "    const res = pm.response.json();",
+                      "    pm.expect(res.attribute.values).to.be.an('array');",
+                      "});"
+                    ],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/admin/attribute/{{attribute_id}}?fields=values.*",
+                  "host": ["{{base_url}}"],
+                  "path": ["admin", "attribute", "{{attribute_id}}"],
+                  "query": [
+                    {
+                      "key": "fields",
+                      "value": "values.*"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
               "name": "Error - Not Found",
               "event": [
                 {
