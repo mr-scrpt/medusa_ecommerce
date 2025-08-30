@@ -2,8 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Container, Heading, Input, Select, Text } from "@medusajs/ui";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 
-import { AttributeFieldType } from "@/modules/attribute/domain/type";
-import { PAGE_ATTRIBUTE_ROUTES } from "@/modules/attribute/interface.client";
 import { JsonViewSection } from "@/shared/ui/kit/json-view-section/json-view-section";
 import {
   AttributeRelationCreateForm,
@@ -11,6 +9,10 @@ import {
   defaultAttributeRelationCreateForm,
 } from "../../domain/from-create.schema";
 import { useAttributeCreateHandler } from "./handler/use-attribute-create.handler";
+import {
+  PAGE_ATTRIBUTE_ROUTES,
+  AttributeFieldType,
+} from "../../interface.type";
 
 export const AttributeCreateForm = () => {
   const form = useForm<AttributeRelationCreateForm>({
