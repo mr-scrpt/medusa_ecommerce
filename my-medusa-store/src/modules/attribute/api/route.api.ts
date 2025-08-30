@@ -1,13 +1,22 @@
+const BASE_ENDPOINT = "/admin/attribute";
 export const API_ATTRIBUTE_ENDPOINT = {
-  BASE: "/admin/attribute",
+  BASE: BASE_ENDPOINT,
 
   QUERY: {
     GET_LIST: "/admin/attribute",
-    GET_BY_ID: (id: string) => `/admin/attribute/${id}`,
+    GET_BY_ID: (id: string) => `${BASE_ENDPOINT}/${id}`,
   },
   MUTATION: {
     CREATE: "/admin/attribute",
-    UPDATE: (id: string) => `/admin/attribute/${id}`,
-    DELETE: (id: string) => `/admin/attribute/${id}`,
+    UPDATE: (id: string) => `${BASE_ENDPOINT}/${id}`,
+    DELETE: (id: string) => `${BASE_ENDPOINT}/${id}`,
   },
+} as const;
+
+const BASE_ROUTE = "/admin/attribute";
+
+export const PAGE_ATTRIBUTE_ROUTES = {
+  BASE: BASE_ROUTE,
+  CREATE: `${BASE_ROUTE}/create`,
+  EDIT: `${BASE_ROUTE}/:id/update`,
 } as const;

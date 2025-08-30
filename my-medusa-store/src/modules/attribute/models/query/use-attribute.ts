@@ -23,8 +23,8 @@ const useAttributeFabric =
     return { attribute: data, ...rest };
   };
 
-export const useAttribute = useAttributeFabric();
-export const useAttributeWithValueList = useAttributeFabric(
+export const useAttributeQuery = useAttributeFabric();
+export const useAttributeWithValueListQuery = useAttributeFabric(
   ATTRIBUTE_RELATION_FIELDS,
 );
 
@@ -43,7 +43,7 @@ const useAttributeListFabric =
     return { ...data, ...rest };
   };
 
-export const useAttributeList = useAttributeListFabric();
-export const useAttributeListWithValueList = useAttributeListFabric(
+export const useAttributeListQuery = useAttributeListFabric();
+export const useAttributeListWithValueListQuery = useAttributeListFabric(
   ATTRIBUTE_RELATION_FIELDS,
 );

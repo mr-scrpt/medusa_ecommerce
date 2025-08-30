@@ -1,19 +1,18 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Container, Heading, Input, Select, Text } from "@medusajs/ui";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 
 import { AttributeFieldType } from "@/modules/attribute/domain/type";
-import { useAttributeCreate } from "@/modules/attribute/interface.client";
+import { PAGE_ATTRIBUTE_ROUTES } from "@/modules/attribute/interface.client";
 import { JsonViewSection } from "@/shared/ui/kit/json-view-section/json-view-section";
-import { AttributeRelationCreateForm } from "../../domain/from-create.schema";
 import {
+  AttributeRelationCreateForm,
   AttributeRelationCreateFormSchema,
   defaultAttributeRelationCreateForm,
 } from "../../domain/from-create.schema";
+import { useAttributeCreateHandler } from "./handler/use-attribute-create.handler";
 
 export const AttributeCreateForm = () => {
-  const navigate = useNavigate();
   const form = useForm<AttributeRelationCreateForm>({
     resolver: zodResolver(AttributeRelationCreateFormSchema),
     defaultValues: {
@@ -26,23 +25,26 @@ export const AttributeCreateForm = () => {
     name: "valueListData",
   });
 
-  const { mutateAsync: createAttribute, isPending } = useAttributeCreate();
-
-  const onSubmit = form.handleSubmit(async (data) => {
-    try {
-      await createAttribute(data);
-      navigate("/attribute");
-    } catch (error) {
-      console.error("Failed to create attribute", error);
-    }
-  });
+  const { handleAttributeCreate, isPending, isError } =
+    useAttributeCreateHandler({
+      onSuccess: () => {
+        console.log("output_log: %%%%%%%%%%%%% =>>> OLOLOLO");
+      },
+      callbackUrl: PAGE_ATTRIBUTE_ROUTES.BASE,
+      onError: () => {
+        console.log("output_log: %%%%%%%%%%%%% =>>> OLOLOLO");
+      },
+    });
 
   const { errors } = form.formState;
 
   return (
     <Container>
       <Heading level="h1">Create Attribute</Heading>
-      <form onSubmit={onSubmit} className="flex flex-col gap-y-4">
+      <form
+        onSubmit={form.handleSubmit(handleAttributeCreate)}
+        className="flex flex-col gap-y-4"
+      >
         {}
         <div className="grid grid-cols-2 gap-x-4">
           <div>

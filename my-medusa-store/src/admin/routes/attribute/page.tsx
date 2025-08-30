@@ -10,8 +10,8 @@ import {
 } from "@medusajs/ui";
 
 import {
-  useAttributeList,
-  useAttributeListWithValueList,
+  useAttributeListQuery,
+  useAttributeListWithValueListQuery,
 } from "@/modules/attribute/interface.client";
 
 import { useNavigate } from "react-router-dom";
@@ -20,10 +20,11 @@ import { useAttributeTableColumns } from "../../vm/table/columns/use-attribute-t
 const AttributesPage = () => {
   const navigate = useNavigate();
   const { columns, order, sorting, limit } = useAttributeTableColumns();
-  const { attributeList, count, isLoading } = useAttributeListWithValueList({
-    order,
-    limit,
-  });
+  const { attributeList, count, isLoading } =
+    useAttributeListWithValueListQuery({
+      order,
+      limit,
+    });
   console.log("output_log: ATTRIBUTES =>>>", attributeList);
 
   const table = useDataTable({
