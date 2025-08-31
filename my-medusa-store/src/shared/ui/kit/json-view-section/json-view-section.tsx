@@ -20,7 +20,7 @@ import Primitive from "@uiw/react-json-view";
 import { CSSProperties, MouseEvent, Suspense, useMemo, useState } from "react";
 
 // --- ИЗМЕНЕНИЯ В ТИПАХ ---
-type JsonViewSectionProps = {
+export type JsonViewSectionProps = {
   data: string | null | undefined; // Теперь data - это строка
   title?: string;
   editable?: boolean;

@@ -1,8 +1,7 @@
-import type { ComponentProps } from "react";
-import { AttributeRelationCreateForm } from "../../../domain/from-create.schema";
-import { useNavigate } from "react-router-dom";
-import { useAttributeCreateMutation } from "../../../interface.client";
 import { HandlerFormBaseProps } from "@/shared/lib/react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { AttributeRelationCreateForm } from "../../../domain/from-create.schema";
+import { useAttributeCreateMutation } from "../../../interface.client";
 
 export const useAttributeCreateHandler = (props: HandlerFormBaseProps) => {
   const { callbackUrl, onSuccess, onError } = props;

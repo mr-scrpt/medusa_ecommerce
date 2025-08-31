@@ -13,7 +13,7 @@ export const API_ATTRIBUTE_ENDPOINT = {
   },
 } as const;
 
-const BASE_ROUTE = "/admin/attribute";
+const BASE_ROUTE = "/attribute";
 
 export const PAGE_ATTRIBUTE_ROUTES = {
   BASE: BASE_ROUTE,
