@@ -1,41 +1,71 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Spinner } from "@medusajs/icons";
+import { Button, Label, Text } from "@medusajs/ui";
 import cx from "classnames";
+import { ComponentProps, useEffect } from "react";
 import {
   Controller,
+  DefaultValues,
   FormProvider,
   useFieldArray,
   useForm,
   useFormContext,
 } from "react-hook-form";
+import { ZodTypeAny } from "zod";
 import {
   AttributeRelationCreateForm,
   AttributeRelationCreateFormSchema,
-  defaultAttributeRelationCreateForm,
+  getAttributeRelationCreateFormDefaultValues,
 } from "../../domain/from-create.schema";
-import { PAGE_ATTRIBUTE_ROUTES } from "../../interface.type";
-import { useAttributeCreateHandler } from "./handler/use-attribute-create.handler";
-import { ComponentProps } from "react";
-import { AttributeNameElement } from "./element/attribute-name.element";
-import { Button, Label, Text } from "@medusajs/ui";
 import { AttributeHandleElement } from "./element/attribute-handle.element";
-import { AttributeTypeElement } from "./element/attribute-type.element";
 import { AttributeIsFilterableElement } from "./element/attribute-is-filterable.element";
 import { AttributeJSONViewElement } from "./element/attribute-json-view.element";
+import { AttributeNameElement } from "./element/attribute-name.element";
+import { AttributeTypeElement } from "./element/attribute-type.element";
 import { AttributeValueListElement } from "./element/value-list/attribute-vlaue-list.element";
-import { Spinner } from "@medusajs/icons";
+import { ButtonSubmitProps } from "@/shared/lib/react-hook-form";
 
-type AttributeFromCreateProps = ComponentProps<"div"> & {
-  onSubmitForm: (data: AttributeRelationCreateForm) => void;
+type AttributeFromCreateProps<T extends AttributeRelationCreateForm> =
+  ComponentProps<"div"> & {
+    onSubmitForm: (data: T) => void;
+    schema?: ZodTypeAny;
+    defaultValues?: DefaultValues<T>;
+  };
+
+type AttributeFormComponent = <T extends AttributeRelationCreateForm>(
+  props: AttributeFromCreateProps<T>,
+) => React.ReactElement;
+
+type AttributeFormFields = {
+  FieldName: (props: ComponentProps<"div">) => React.ReactElement;
+  FieldHandle: (props: ComponentProps<"div">) => React.ReactElement;
+  FieldType: (props: ComponentProps<"div">) => React.ReactElement;
+  FieldIsFilterable: (props: ComponentProps<"div">) => React.ReactElement;
+  FieldValuesList: (props: ComponentProps<"div">) => React.ReactElement;
+  FieldJSONView: (props: ComponentProps<"div">) => React.ReactElement;
+  ButtonSubmit: (props: ButtonSubmitProps) => React.ReactElement;
 };
 
-export const AttributeFrom = (props: AttributeFromCreateProps) => {
-  const { children, className, onSubmitForm, ...rest } = props;
-  const form = useForm<AttributeRelationCreateForm>({
-    resolver: zodResolver(AttributeRelationCreateFormSchema),
-    defaultValues: {
-      ...defaultAttributeRelationCreateForm,
-    },
+// 3. Объединяем их в один тип
+type AttributeFromType = AttributeFormComponent & AttributeFormFields;
+
+export const AttributeFrom: AttributeFromType = <
+  T extends AttributeRelationCreateForm,
+>(
+  props: AttributeFromCreateProps<T>,
+) => {
+  const { children, className, onSubmitForm, defaultValues, schema, ...rest } =
+    props;
+
+  const form = useForm<T>({
+    resolver: zodResolver(schema || AttributeRelationCreateFormSchema),
+    defaultValues:
+      getAttributeRelationCreateFormDefaultValues<T>(defaultValues),
   });
+
+  useEffect(() => {
+    form.reset(getAttributeRelationCreateFormDefaultValues<T>(defaultValues));
+  }, [defaultValues, form]);
 
   return (
     <FormProvider {...form}>
@@ -49,8 +79,7 @@ export const AttributeFrom = (props: AttributeFromCreateProps) => {
   );
 };
 
-type AttributeNameElementProps = ComponentProps<"div">;
-AttributeFrom.FieldName = (props: AttributeNameElementProps) => {
+AttributeFrom.FieldName = (props) => {
   const { className } = props;
   const { control } = useFormContext<AttributeRelationCreateForm>();
   return (
@@ -70,8 +99,7 @@ AttributeFrom.FieldName = (props: AttributeNameElementProps) => {
   );
 };
 
-type AttributeHandleElementProps = ComponentProps<"div">;
-AttributeFrom.FieldHandle = (props: AttributeHandleElementProps) => {
+AttributeFrom.FieldHandle = (props) => {
   const { className } = props;
   const { control } = useFormContext<AttributeRelationCreateForm>();
   return (
@@ -91,9 +119,7 @@ AttributeFrom.FieldHandle = (props: AttributeHandleElementProps) => {
   );
 };
 
-type AttributeTypeElementProps = ComponentProps<"div">;
-
-AttributeFrom.FieldType = (props: AttributeTypeElementProps) => {
+AttributeFrom.FieldType = (props) => {
   const { className } = props;
   const { control } = useFormContext<AttributeRelationCreateForm>();
   return (
@@ -113,10 +139,8 @@ AttributeFrom.FieldType = (props: AttributeTypeElementProps) => {
   );
 };
 
-type AttributeIsFilterableElementProps = ComponentProps<"div">;
-AttributeFrom.FieldIsFilterable = (
-  props: AttributeIsFilterableElementProps,
-) => {
+// type AttributeIsFilterableElementProps = ComponentProps<"div">;
+AttributeFrom.FieldIsFilterable = (props) => {
   const { className } = props;
   const { control } = useFormContext<AttributeRelationCreateForm>();
   return (
@@ -144,9 +168,7 @@ AttributeFrom.FieldIsFilterable = (
   );
 };
 
-type AttributeJSONViewElementProps = ComponentProps<"div">;
-
-AttributeFrom.FieldJSONView = (props: AttributeJSONViewElementProps) => {
+AttributeFrom.FieldJSONView = (props) => {
   const { className } = props;
   const { control } = useFormContext<AttributeRelationCreateForm>();
   return (
@@ -169,9 +191,7 @@ AttributeFrom.FieldJSONView = (props: AttributeJSONViewElementProps) => {
   );
 };
 
-type AttributeValueListElementProps = ComponentProps<"div">;
-
-AttributeFrom.FieldValuesList = (props: AttributeValueListElementProps) => {
+AttributeFrom.FieldValuesList = (props) => {
   const { className } = props;
   const { control } = useFormContext<AttributeRelationCreateForm>();
 
@@ -192,11 +212,8 @@ AttributeFrom.FieldValuesList = (props: AttributeValueListElementProps) => {
     </div>
   );
 };
-type ButtonSubmitProps = ComponentProps<"button"> & {
-  isPending?: boolean;
-  submitText: string;
-};
-AttributeFrom.ButtonSubmit = (props: ButtonSubmitProps) => {
+
+AttributeFrom.ButtonSubmit = (props) => {
   const { isPending, submitText, ...rest } = props;
 
   return (

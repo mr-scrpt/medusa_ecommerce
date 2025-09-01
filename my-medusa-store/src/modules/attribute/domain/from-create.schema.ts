@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { DefaultValues } from "react-hook-form";
 import {
   AttributeCreateSchema,
   attributeFormDefaultValues,
@@ -23,3 +24,14 @@ export const defaultAttributeRelationCreateForm =
     attributeData: attributeFormDefaultValues,
     valueListData: [attributeValueFormDefaultValues],
   });
+
+export const getAttributeRelationCreateFormDefaultValues = <
+  T extends AttributeRelationCreateForm,
+>(
+  customDefaults?: DefaultValues<T>,
+): DefaultValues<T> => {
+  return {
+    ...defaultAttributeRelationCreateForm,
+    ...customDefaults,
+  } as DefaultValues<T>;
+};

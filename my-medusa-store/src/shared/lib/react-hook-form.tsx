@@ -1,3 +1,5 @@
+import { ComponentProps } from "react";
+
 export const combineDefaultSchemas = <T extends Record<string, any>>(schemas: {
   [K in keyof T]: T[K];
 }): T => {
@@ -9,3 +11,8 @@ export interface HandlerFormBaseProps {
   onSuccess?: () => void;
   onError?: () => void;
 }
+
+export type ButtonSubmitProps = ComponentProps<"button"> & {
+  isPending?: boolean;
+  submitText: string;
+};
