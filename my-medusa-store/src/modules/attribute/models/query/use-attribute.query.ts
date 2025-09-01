@@ -6,27 +6,31 @@ import {
   AttributeListParams,
   AttributeListResponse,
   AttributeRelationFieldList,
+  AttributeRelationResponse,
   AttributeResponse,
 } from "../../interface.type";
 
 const useAttributeFabric =
-  (relations?: AttributeRelationFieldList) => (id: string) => {
+  <T extends AttributeResponse>(relations?: AttributeRelationFieldList) =>
+  ({ attributeId }: { attributeId: string }) => {
     const { data, ...rest } = useQuery({
-      queryKey: ["attribute", id, relations],
+      queryKey: ["attribute", attributeId, relations],
       queryFn: async () => {
-        return attributeApi.get<AttributeResponse>({ id, ...relations });
+        return attributeApi.get<T>({
+          id: attributeId,
+          ...relations,
+        });
       },
 
-      enabled: !!id,
+      enabled: !!attributeId,
     });
 
-    return { attribute: data, ...rest };
+    return { attributeData: data, ...rest };
   };
 
 export const useAttributeQuery = useAttributeFabric();
-export const useAttributeWithValueListQuery = useAttributeFabric(
-  ATTRIBUTE_RELATION_FIELDS,
-);
+export const useAttributeWithValueListQuery =
+  useAttributeFabric<AttributeRelationResponse>(ATTRIBUTE_RELATION_FIELDS);
 
 const useAttributeListFabric =
   (relations?: AttributeRelationFieldList) => (query: AttributeListParams) => {

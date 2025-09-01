@@ -1,11 +1,12 @@
 import { Input } from "@medusajs/ui";
-import { ComponentProps } from "react";
+import { ComponentProps, forwardRef } from "react";
 
 type AttributeValueValueElementProps = ComponentProps<typeof Input>;
 
-export const AttributeValueValueElement = (
-  props: AttributeValueValueElementProps,
-) => {
+export const AttributeValueValueElement = forwardRef<
+  HTMLInputElement,
+  AttributeValueValueElementProps
+>((props, ref) => {
   const { children, ...rest } = props;
-  return <Input {...rest} placeholder="e.g. #FF0000" />;
-};
+  return <Input ref={ref} {...rest} placeholder="e.g. #FF0000" />;
+});

@@ -1,14 +1,23 @@
 import { AttributeFieldType } from "@/modules/attribute/interface.type";
 import { Select } from "@medusajs/ui";
-import type { ComponentProps } from "react";
+import React, { type ComponentProps } from "react";
 
-type AttributeNameElementProps = ComponentProps<typeof Select>;
+type AttributeTypeElementProps = ComponentProps<typeof Select> & {
+  onChange?: (value: string) => void;
+};
 
-export const AttributeTypeElement = (props: AttributeNameElementProps) => {
-  const { children, ...rest } = props;
+export const AttributeTypeElement = React.forwardRef<
+  HTMLButtonElement,
+  AttributeTypeElementProps
+>((props, ref) => {
+  const { onChange, value, ...rest } = props;
+
   return (
-    <Select {...rest}>
-      <Select.Trigger>
+    <Select value={value} onValueChange={onChange} {...rest}>
+      {}
+      <Select.Trigger ref={ref}>
+        {" "}
+        {}
         <Select.Value />
       </Select.Trigger>
       <Select.Content>
@@ -20,4 +29,4 @@ export const AttributeTypeElement = (props: AttributeNameElementProps) => {
       </Select.Content>
     </Select>
   );
-};
+});

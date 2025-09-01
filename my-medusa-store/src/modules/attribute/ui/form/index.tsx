@@ -12,11 +12,6 @@ import {
   useFormContext,
 } from "react-hook-form";
 import { ZodTypeAny } from "zod";
-import {
-  AttributeRelationCreateForm,
-  AttributeRelationCreateFormSchema,
-  getAttributeRelationCreateFormDefaultValues,
-} from "../../domain/from-create.schema";
 import { AttributeHandleElement } from "./element/attribute-handle.element";
 import { AttributeIsFilterableElement } from "./element/attribute-is-filterable.element";
 import { AttributeJSONViewElement } from "./element/attribute-json-view.element";
@@ -24,6 +19,11 @@ import { AttributeNameElement } from "./element/attribute-name.element";
 import { AttributeTypeElement } from "./element/attribute-type.element";
 import { AttributeValueListElement } from "./element/value-list/attribute-vlaue-list.element";
 import { ButtonSubmitProps } from "@/shared/lib/react-hook-form";
+import {
+  AttributeRelationCreateForm,
+  AttributeRelationCreateFormSchema,
+} from "../../domain/from-create.schema";
+import { getAttributeRelationCreateFormDefaultValues } from "../../models/form/attribute-form.model";
 
 type AttributeFromCreateProps<T extends AttributeRelationCreateForm> =
   ComponentProps<"div"> & {

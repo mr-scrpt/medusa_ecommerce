@@ -1,19 +1,17 @@
 import { Container, Heading } from "@medusajs/ui";
-import { useAttributeCreateHandler } from "./handler/use-attribute-create.handler";
-import { PAGE_ATTRIBUTE_ROUTES } from "../../interface.type";
 import { AttributeFrom } from ".";
+import { useAttributeFormUpdate } from "./hook/use-attribute-form-update";
+import { AttributeFormUpdateProps } from "./type";
 
-export const AttributeUpdateForm = () => {
-  const { handleAttributeCreate, isPending, isError } =
-    useAttributeUpdateHandler({
-      onSuccess: () => {
-        console.log("output_log: %%%%%%%%%%%%% =>>> OLOLOLO");
-      },
-      callbackUrl: PAGE_ATTRIBUTE_ROUTES.BASE,
-      onError: () => {
-        console.log("output_log: %%%%%%%%%%%%% =>>> OLOLOLO");
-      },
-    });
+export const AttributeFormUpdate = (props: AttributeFormUpdateProps) => {
+  const { callbackUrl, attributeId, onSuccess, onError, ...rest } = props;
+  // const { formValues } = useAttributeFormUpdate({ attributeId });
+  // const { handleAttributeCreate, isPending, isError } =
+  //   useAttributeUpdateHandler({
+  //     onSuccess,
+  //     onError,
+  //     callbackUrl,
+  //   });
 
   return (
     <Container>
@@ -21,7 +19,8 @@ export const AttributeUpdateForm = () => {
 
       <AttributeFrom
         className="flex flex-col gap-y-4"
-        onSubmitForm={handleAttributeCreate}
+        onSubmitForm={(data) => console.log(data)}
+        defaultValues={{}}
       >
         <div className="grid grid-cols-2 gap-x-4">
           <AttributeFrom.FieldName />
@@ -41,7 +40,7 @@ export const AttributeUpdateForm = () => {
 
         <div className="flex justify-end mt-4">
           <AttributeFrom.ButtonSubmit
-            isPending={isPending}
+            isPending={false}
             submitText="Create Attribute"
           />
         </div>

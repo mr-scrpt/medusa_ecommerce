@@ -11,10 +11,3 @@ export const AttributeValueCreateSchema = z.object({
 export type AttributeValueFormDefaultValue<
   T extends z.ZodTypeAny = typeof AttributeValueCreateSchema,
 > = z.infer<T>;
-
-export const attributeValueFormDefaultValues: AttributeValueFormDefaultValue = {
-  name: "",
-  value: "",
-  rank: 0,
-  metadata: "",
-};

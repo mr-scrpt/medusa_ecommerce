@@ -1,14 +1,8 @@
 import { Container, Heading } from "@medusajs/ui";
-import { useAttributeCreateHandler } from "./handler/use-attribute-create.handler";
-import { PAGE_ATTRIBUTE_ROUTES } from "../../interface.type";
 import { AttributeFrom } from ".";
-import { ComponentProps } from "react";
+import { useAttributeCreateHandler } from "./handler/use-attribute-create.handler";
+import { AttributeFormCreateProps } from "./type";
 
-type AttributeFormCreateProps = ComponentProps<"div"> & {
-  callbackUrl?: string;
-  onSuccess?: () => void;
-  onError?: () => void;
-};
 export const AttributeFormCreate = (props: AttributeFormCreateProps) => {
   const { callbackUrl, onSuccess, onError, ...rest } = props;
   const { handleAttributeCreate, isPending, isError } =

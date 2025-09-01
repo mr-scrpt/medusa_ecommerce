@@ -13,13 +13,3 @@ export const AttributeCreateSchema = z.object({
 export type AttributeFormDefaultValues<
   T extends z.ZodTypeAny = typeof AttributeCreateSchema,
 > = z.infer<T>;
-
-/** Form Default Values**/
-
-export const attributeFormDefaultValues: AttributeFormDefaultValues = {
-  name: "",
-  handle: "",
-  type: AttributeFieldType.SINGLE,
-  filterable: false,
-  metadata: "",
-};

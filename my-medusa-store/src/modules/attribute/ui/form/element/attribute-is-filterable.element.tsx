@@ -1,11 +1,12 @@
 import { Checkbox } from "@medusajs/ui";
-import type { ComponentProps } from "react";
+import { forwardRef, type ComponentProps } from "react";
 
 type AttributeIsFilterableElementProps = ComponentProps<typeof Checkbox>;
 
-export const AttributeIsFilterableElement = (
-  props: AttributeIsFilterableElementProps,
-) => {
+export const AttributeIsFilterableElement = forwardRef<
+  HTMLButtonElement,
+  AttributeIsFilterableElementProps
+>((props, ref) => {
   const { children, ...rest } = props;
-  return <Checkbox {...rest} />;
-};
+  return <Checkbox ref={ref} {...rest} />;
+});

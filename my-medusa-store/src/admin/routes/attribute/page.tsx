@@ -9,10 +9,7 @@ import {
   useDataTable,
 } from "@medusajs/ui";
 
-import {
-  useAttributeListQuery,
-  useAttributeListWithValueListQuery,
-} from "@/modules/attribute/interface.client";
+import { useAttributeListWithValueListQuery } from "@/modules/attribute/interface.client";
 
 import { useNavigate } from "react-router-dom";
 import { useAttributeTableColumns } from "../../vm/table/columns/use-attribute-table-columns";

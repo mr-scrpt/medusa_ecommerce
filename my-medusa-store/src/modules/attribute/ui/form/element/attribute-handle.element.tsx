@@ -1,9 +1,13 @@
 import { Input } from "@medusajs/ui";
-import type { ComponentProps } from "react";
+import { ComponentProps, forwardRef } from "react";
 
 type AttributeHandleElementProps = ComponentProps<typeof Input>;
 
-export const AttributeHandleElement = (props: AttributeHandleElementProps) => {
+export const AttributeHandleElement = forwardRef<
+  HTMLInputElement,
+  AttributeHandleElementProps
+>((props, ref) => {
   const { children, ...rest } = props;
-  return <Input {...rest} placeholder="e.g. Color" />;
-};
+
+  return <Input ref={ref} {...rest} placeholder="e.g. Color" />;
+});
